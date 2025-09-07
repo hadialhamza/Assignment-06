@@ -15,10 +15,17 @@ const fetchPlants = () => {
 // Function for Fetch plants bt category
 const fetchPlantsByCategory = (id) => {
   const url = `https://openapi.programming-hero.com/api/category/${id}`;
-  console.log(url);
   fetch(url)
     .then((res) => res.json())
     .then((data) => loadPlantsByCategory(data.plants));
+};
+
+// Function for fetch tree details
+const fetchTreeDetails = (id) => {
+  const url = `https://openapi.programming-hero.com/api/plant/${id}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => loadTreeDetails(data.plants));
 };
 
 // Function for load categories
@@ -54,6 +61,7 @@ const loadPlants = (plants) => {
   // console.log(plants);
   plants.forEach((plant) => {
     // console.log(plant);
+    const plantId = plant.id;
     const plantImage = plant.image;
     const plantName = plant.name;
     const plantDescription = plant.description;
@@ -71,7 +79,7 @@ const loadPlants = (plants) => {
                   class="w-full h-full object-cover"
                 />
               </div>
-              <h2 class="text-sm font-semibold mb-2">${plantName}</h2>
+              <h2 onclick="fetchTreeDetails('${plantId}')" class="text-base font-semibold mb-2 cursor-pointer">${plantName}</h2>
               <p class="text-xs font-normal text-[#8c8c8c] mb-2">
                 ${plantDescription}
               </p>
@@ -93,6 +101,45 @@ const loadPlants = (plants) => {
 
     cardContainer.append(cardDiv);
   });
+};
+
+// Function for tree details in modal
+const loadTreeDetails = (plant) => {
+  const modalContainer = document.getElementById("modal-container");
+  modalContainer.innerHTML = "";
+
+  const modalDiv = document.createElement("div");
+  modalDiv.innerHTML = `
+          <div
+          class="bg-white rounded-lg p-4 flex flex-col justify-between gap-4"
+        >
+          <h2 class="text-lg font-semibold cursor-pointer">${plant.name}</h2>
+          <div class="rounded-lg overflow-hidden h-80">
+            <img
+              src="${plant.image}"
+              alt=""
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <p class="text-sm font-normal">
+            <span class="font-semibold">Description: </span>${plant.description}
+          </p>
+          <p class="text-base font-normal">
+            <span class="font-semibold">Category: </span>${plant.category}
+          </p>
+          <p class="text-base">
+            <span class="font-semibold">Price: </span>৳
+            <span>${plantPrice}</span>
+          </p>
+        </div>
+        <form method="dialog" class="flex justify-end">
+          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Close</button>
+        </form>
+  `;
+
+  modalContainer.append(modalDiv);
+  my_modal_1.showModal();
 };
 
 fetchCategories();

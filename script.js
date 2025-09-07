@@ -66,7 +66,7 @@ const loadPlants = (plants) => {
     const plantName = plant.name;
     const plantDescription = plant.description;
     const plantCategory = plant.category;
-    plantPrice = plant.price;
+    const plantPrice = plant.price;
 
     const cardContainer = document.getElementById("card-container");
     const cardDiv = document.createElement("div");
@@ -91,7 +91,7 @@ const loadPlants = (plants) => {
                 </button>
                 <p class="text-sm font-semibold">৳ <span>${plantPrice}</span></p>
               </div>
-              <button
+              <button onclick='addToCart("${plantName}", "${plantPrice}")'
                 class="bg-[#15803d] px-5 py-3 rounded-full text-white text-base font-medium cursor-pointer"
               >
                 Add to Cart
@@ -129,7 +129,7 @@ const loadTreeDetails = (plant) => {
           </p>
           <p class="text-base">
             <span class="font-semibold">Price: </span>৳
-            <span>${plantPrice}</span>
+            <span>${plant.price}</span>
           </p>
         </div>
         <form method="dialog" class="flex justify-end">
@@ -140,6 +140,44 @@ const loadTreeDetails = (plant) => {
 
   modalContainer.append(modalDiv);
   my_modal_1.showModal();
+};
+
+//Function for Add items to cart
+const addToCart = (name, price) => {
+  const cartContainer = document.getElementById("cart-container");
+  const cartDiv = document.createElement("div");
+  cartDiv.innerHTML = `
+            <div class="mb-2">
+              <div
+                class="bg-[#f0fdf4] py-2 px-3 rounded-lg flex justify-between items-center"
+              >
+                <div>
+                  <h2 class="text-sm font-semibold mb-1">${name}</h2>
+                  <p class="text-base font-normal text-[#8C8C8C]">৳ <span>${price}</span> x 1</p>
+                </div>
+                <button onclick="removeItem(event, '${price}')" class="cursor-pointer">❌</button>
+              </div>
+            </div>
+  `;
+  cartContainer.append(cartDiv);
+
+  // Update total price
+  const totalPrice = document.getElementById("total");
+  const currentTotal = parseInt(totalPrice.innerText);
+  const newTotal = currentTotal + parseInt(price);
+  totalPrice.innerText = newTotal;
+};
+
+//Function for remove items from cart
+const removeItem = (e, price) => {
+  const removeElement = e.target.parentElement.parentElement;
+  removeElement.remove();
+
+  // Update total price
+  const totalPrice = document.getElementById("total");
+  const currentTotal = parseInt(totalPrice.innerText);
+  const newTotal = currentTotal - parseInt(price);
+  totalPrice.innerText = newTotal;
 };
 
 fetchCategories();

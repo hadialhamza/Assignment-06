@@ -266,5 +266,35 @@ const removeHighlightCategory = () => {
   });
 };
 
+// Mobile device buttons functionality
+const mobileCategoryBtn = document.getElementById("mobile-categories-btn");
+const mobileCartBtn = document.getElementById("mobile-cart-btn");
+const mobileCategory = document.getElementById("mobile-category");
+const shoppingCart = document.getElementById("shopping-cart");
+const cardContainer = document.getElementById("card-container");
+const campaign = document.getElementById("campaign");
+
+mobileCategoryBtn.addEventListener("click", () => {
+  console.log("clicked");
+  mobileCategoryBtn.classList.remove("btn-outline");
+  mobileCartBtn.classList.add("btn-outline");
+
+  mobileCategory.removeAttribute("hidden");
+  shoppingCart.classList.add("hidden");
+  cardContainer.removeAttribute("hidden");
+  campaign.removeAttribute("hidden");
+});
+
+mobileCartBtn.addEventListener("click", () => {
+  console.log("clicked");
+  mobileCategoryBtn.classList.add("btn-outline");
+  mobileCartBtn.classList.remove("btn-outline");
+
+  mobileCategory.setAttribute("hidden", "true");
+  shoppingCart.classList.remove("hidden");
+  cardContainer.setAttribute("hidden", "true");
+  campaign.setAttribute("hidden", "true");
+});
+
 fetchCategories();
 fetchPlants();

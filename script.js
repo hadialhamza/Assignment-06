@@ -205,6 +205,10 @@ const addToCart = (name, price) => {
   const currentTotal = parseInt(totalPrice.innerText);
   const newTotal = currentTotal + parseInt(price);
   totalPrice.innerText = newTotal;
+
+  const modalTreeName = document.getElementById("tree-name");
+  modalTreeName.innerText = name;
+  my_modal_2.showModal();
 };
 
 //Function for remove items from cart

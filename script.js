@@ -2,11 +2,25 @@
 const fetchCategories = () => {
   fetch("https://openapi.programming-hero.com/api/categories")
     .then((response) => response.json())
-    .then((json) => loadCategories(json.categories));
+    .then((json) => {
+      const allCategories = [];
+      const fetchCategories = json.categories;
+
+      if (fetchCategories.length) {
+        allCategories.push({
+          id: "category-btn-all",
+          category_name: "All Tress",
+        });
+        allCategories.push(...fetchCategories);
+      }
+      // console.log(allCategories);
+      loadCategories(allCategories);
+    });
 };
 
 // Function for fetch all plants
 const fetchPlants = () => {
+  loadingSpinner(true);
   fetch("https://openapi.programming-hero.com/api/plants")
     .then((res) => res.json())
     .then((data) => loadPlants(data.plants));
@@ -14,10 +28,23 @@ const fetchPlants = () => {
 
 // Function for Fetch plants bt category
 const fetchPlantsByCategory = (id) => {
+  loadingSpinner(true);
+  removeHighlightCategory();
+  const categoryBtn = document.getElementById(`categoryBtn-${id}`);
+  // console.log(categoryBtn);
+  categoryBtn.classList.add("bg-[#15803D]", "text-white");
+  if (id === "category-btn-all") {
+    allTress();
+    return;
+  }
+
   const url = `https://openapi.programming-hero.com/api/category/${id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => loadPlantsByCategory(data.plants));
+    .then((data) => {
+      loadPlantsByCategory(data.plants);
+      // console.log(data);
+    });
 };
 
 // Function for fetch tree details
@@ -25,19 +52,26 @@ const fetchTreeDetails = (id) => {
   const url = `https://openapi.programming-hero.com/api/plant/${id}`;
   fetch(url)
     .then((res) => res.json())
-    .then((data) => loadTreeDetails(data.plants));
+    .then((data) => {
+      loadTreeDetails(data.plants);
+    });
 };
 
 // Function for load categories
 const loadCategories = (categories) => {
   // console.log(categories);
-  categories.forEach((category) => {
+  categories.forEach((category, index) => {
     // console.log(category.category_name);
     const categoryId = category.id;
     // console.log(categoryId);
     const categorySection = document.getElementById("categories");
     const categoryLi = document.createElement("li");
-    categoryLi.innerHTML = `<li onclick="fetchPlantsByCategory('${categoryId}')" class="mt-2 py-2 px-4 rounded-md hover:bg-[#74a887] hover:text-white cursor-pointer">${category.category_name}</li>`;
+    categoryLi.innerHTML = `<li id="categoryBtn-${categoryId}" onclick="fetchPlantsByCategory('${categoryId}')" class="category-btns  ${
+      index === 0 ? "bg-[#15803D] text-white" : ""
+    } mt-2 py-2 px-4 rounded-md hover:bg-[#74a887] hover:text-white cursor-pointer">${
+      category.category_name
+    }</li>`;
+
     categorySection.appendChild(categoryLi);
   });
 };
@@ -47,6 +81,8 @@ const allTress = () => {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   fetchPlants();
+  // const allTreeBtn = document.getElementById("category-btn-all");
+  // allTreeBtn.classList.add("bg-[#15803D]", "text-white");
 };
 
 // Function for load plants by category
@@ -54,6 +90,8 @@ const loadPlantsByCategory = (plants) => {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   loadPlants(plants);
+  loadingSpinner(false);
+  // console.log(plants);
 };
 
 //Function for load all plants
@@ -101,6 +139,7 @@ const loadPlants = (plants) => {
 
     cardContainer.append(cardDiv);
   });
+  loadingSpinner(false);
 };
 
 // Function for tree details in modal
@@ -178,6 +217,33 @@ const removeItem = (e, price) => {
   const currentTotal = parseInt(totalPrice.innerText);
   const newTotal = currentTotal - parseInt(price);
   totalPrice.innerText = newTotal;
+};
+
+// Function for loading spinner
+const loadingSpinner = (status) => {
+  if (status === true) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("card-container").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("card-container").classList.remove("hidden");
+  }
+};
+
+// Function for remove highlight selected category
+const removeHighlightCategory = () => {
+  // fetchCategories();
+  const allCategoryBtns = document.querySelectorAll(".category-btns");
+
+  // console.log(allCategoryBtns);
+  allCategoryBtns.forEach((categoryBtn) => {
+    categoryBtn.classList.remove("bg-[#15803D]", "text-white");
+
+    const allTreeBtn = document.getElementById("category-btn-all");
+    if (allTreeBtn) {
+      allTreeBtn.classList.remove("bg-[#15803D]", "text-white");
+    }
+  });
 };
 
 fetchCategories();

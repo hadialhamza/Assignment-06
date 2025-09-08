@@ -121,18 +121,28 @@
           <div class="p-6">
             <h2 class="text-xl font-semibold mb-4">Categories</h2>
             <ul id="categories" class="text-gray-700 text-base font-normal">
-              <li
+              <!-- <li
+                id="category-btn-all"
                 onclick="allTress()"
-                class="bg-[#15803D] py-2 px-4 rounded-md text-white cursor-pointer hover:bg-[#74a887] hover:text-white"
+                class="category-btns bg-[#15803D] py-2 px-4 rounded-md text-white cursor-pointer hover:bg-[#74a887] hover:text-white"
               >
                 All Tress
-              </li>
+              </li> -->
             </ul>
           </div>
         </aside>
 
         <!-- Card Section -->
         <section class="col-span-8">
+          <!-- Loading Spinner -->
+          <div id="spinner" class="hidden">
+            <div class="flex justify-center items-center flex-col min-h-96">
+              <div
+                class="loading loading-spinner loading-xl w-16 h-16 mb-5"
+              ></div>
+              <p class="text-2xl font-semibold">Loading...</p>
+            </div>
+          </div>
           <!-- Card Container -->
           <div id="card-container" class="grid grid-cols-3 gap-6">
             <!-- Cards -->

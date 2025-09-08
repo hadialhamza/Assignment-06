@@ -13,7 +13,6 @@ const fetchCategories = () => {
         });
         allCategories.push(...fetchCategories);
       }
-      // console.log(allCategories);
       loadCategories(allCategories);
     });
 };
@@ -31,8 +30,13 @@ const fetchPlantsByCategory = (id) => {
   loadingSpinner(true);
   removeHighlightCategory();
   const categoryBtn = document.getElementById(`categoryBtn-${id}`);
-  // console.log(categoryBtn);
-  categoryBtn.classList.add("bg-[#15803D]", "text-white");
+  if (categoryBtn) {
+    categoryBtn.classList.add("bg-[#15803D]", "text-white");
+  }
+
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
+
   if (id === "category-btn-all") {
     allTress();
     return;
@@ -59,20 +63,34 @@ const fetchTreeDetails = (id) => {
 
 // Function for load categories
 const loadCategories = (categories) => {
-  // console.log(categories);
+  const categorySection = document.getElementById("categories");
+  const categorySelect = document.getElementById("categorySelect");
+
   categories.forEach((category, index) => {
-    // console.log(category.category_name);
     const categoryId = category.id;
-    // console.log(categoryId);
-    const categorySection = document.getElementById("categories");
+
+    // Category load for Desktop device
     const categoryLi = document.createElement("li");
     categoryLi.innerHTML = `<li id="categoryBtn-${categoryId}" onclick="fetchPlantsByCategory('${categoryId}')" class="category-btns  ${
       index === 0 ? "bg-[#15803D] text-white" : ""
     } mt-2 py-2 px-4 rounded-md hover:bg-[#74a887] hover:text-white cursor-pointer">${
       category.category_name
     }</li>`;
-
     categorySection.appendChild(categoryLi);
+
+    //Category load for mobile device
+    const categoryOption = document.createElement("option");
+    categoryOption.value = categoryId;
+    categoryOption.text = category.category_name;
+    categorySelect.appendChild(categoryOption);
+  });
+
+  // Function for All tree load in mobile device
+  categorySelect.addEventListener("change", (e) => {
+    const selectedCategoryId = e.target.value;
+    if (selectedCategoryId) {
+      fetchPlantsByCategory(selectedCategoryId);
+    }
   });
 };
 
@@ -81,8 +99,6 @@ const allTress = () => {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   fetchPlants();
-  // const allTreeBtn = document.getElementById("category-btn-all");
-  // allTreeBtn.classList.add("bg-[#15803D]", "text-white");
 };
 
 // Function for load plants by category

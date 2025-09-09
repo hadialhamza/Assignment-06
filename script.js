@@ -270,7 +270,6 @@ const mobileCartBtn = document.getElementById("mobile-cart-btn");
 const mobileCategory = document.getElementById("mobile-category");
 const shoppingCart = document.getElementById("shopping-cart");
 const cardContainer = document.getElementById("card-container");
-const campaign = document.getElementById("campaign");
 
 mobileCategoryBtn.addEventListener("click", () => {
   mobileCategoryBtn.classList.add("bg-[#15803d]", "text-white");
@@ -282,7 +281,6 @@ mobileCategoryBtn.addEventListener("click", () => {
   mobileCategory.classList.remove("hidden");
   shoppingCart.classList.add("hidden");
   cardContainer.classList.remove("hidden");
-  campaign.classList.remove("hidden");
 });
 
 mobileCartBtn.addEventListener("click", () => {
@@ -295,7 +293,6 @@ mobileCartBtn.addEventListener("click", () => {
   mobileCategory.classList.add("hidden");
   shoppingCart.classList.remove("hidden");
   cardContainer.classList.add("hidden");
-  campaign.classList.add("hidden");
 });
 
 fetchCategories();

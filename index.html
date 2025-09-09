@@ -68,7 +68,10 @@
               <li><a>Plant a Tree</a></li>
             </ul>
           </div>
-          <a class="text-xl md:text-2xl font-bold text-white">Green Earth</a>
+          <div class="flex items-center gap-2">
+            <img src="./assets/logo.png" alt="" class="hidden md:block" />
+            <a class="text-xl md:text-2xl font-bold text-white">Green Earth</a>
+          </div>
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul
@@ -114,7 +117,7 @@
             Get Involved
           </button>
         </div>
-        <div class="flex justify-between items-center">
+        <div class="flex justify-center items-center">
           <div class="max-w-[300px] md:max-w-full">
             <img src="./assets/hero-leaf2.png" alt="" />
           </div>
@@ -134,13 +137,16 @@
       <!-- All Tree Card, Category and Cart Section -->
       <section class="w-11/12 mx-auto grid md:grid-cols-12 gap-4 md:gap-8">
         <!-- Buttons for toggle categories and cart -->
-        <div class="md:hidden flex justify-center gap-6 items-center">
-          <button id="mobile-categories-btn" class="btn btn-success text-base">
+        <div class="md:hidden flex justify-center gap-4 items-center px-4">
+          <button
+            id="mobile-categories-btn"
+            class="py-2 text-base font-semibold border-[#15803d] border bg-[#15803d] text-white rounded-full flex-1 cursor-pointer"
+          >
             Categories
           </button>
           <button
             id="mobile-cart-btn"
-            class="btn btn-outline btn-success text-base"
+            class="flex-1 border-[#15803d] border py-2 bg-white text-[#15803d] text-base font-semibold rounded-full cursor-pointer"
           >
             Your Cart
           </button>
@@ -149,7 +155,10 @@
         <!-- Category Section for desktop device -->
         <aside class="md:col-span-2 hidden md:block">
           <div class="p-6">
-            <h2 class="text-xl font-semibold mb-4">Categories</h2>
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-xl font-semibold">Categories</h2>
+              <i class="text-xl fa-solid fa-list"></i>
+            </div>
             <ul
               id="categories"
               class="text-gray-700 text-base font-normal"
@@ -164,7 +173,7 @@
           </label>
           <select
             id="categorySelect"
-            class="w-full p-3 rounded-md border text-gray-700 border-gray-300"
+            class="w-full p-3 rounded-md border text-gray-700 border-gray-300 cursor-pointer"
           ></select>
         </div>
 
@@ -172,19 +181,22 @@
         <section class="md:col-span-8">
           <!-- Loading Spinner -->
           <div id="spinner" class="hidden">
-            <div class="flex justify-center items-center flex-col min-h-96">
+            <div
+              class="flex justify-center items-center flex-col md:min-h-[450px]"
+            >
               <div
                 class="loading loading-spinner loading-xl w-16 h-16 mb-5"
               ></div>
               <p class="text-2xl font-semibold">Loading...</p>
             </div>
           </div>
+
           <!-- Card Container -->
           <div id="card-container" class="grid md:grid-cols-3 gap-6">
             <!-- Cards -->
           </div>
 
-          <!-- Campaign Section for desktop -->
+          <!-- Campaign Section  -->
           <div id="campaign" class="my-11 md:my-24">
             <h2 class="text-center text-3xl font-semibold mb-10">
               About the Campaign
@@ -217,9 +229,12 @@
           class="md:col-span-2 hidden md:block mb-10 md:mb-0"
         >
           <div
-            class="bg-white p-4 rounded-2xl min-h-[450px] md:h-[450px] overflow-y-auto"
+            class="bg-white p-4 rounded-2xl min-h-[350px] md:h-[520px] overflow-y-auto"
           >
-            <h2 class="mb-2 text-xl font-semibold">Your Cart</h2>
+            <div class="mb-2 flex justify-between items-center sticky top-0">
+              <h2 class="text-xl font-semibold">Your Cart</h2>
+              <i class="text-xl fa-solid fa-cart-arrow-down"></i>
+            </div>
             <!-- Cart Items Container -->
             <div id="cart-container" class="flex flex-col-reverse"></div>
           </div>

@@ -29,13 +29,7 @@ const fetchPlants = () => {
 const fetchPlantsByCategory = (id) => {
   loadingSpinner(true);
   removeHighlightCategory();
-  const categoryBtn = document.getElementById(`categoryBtn-${id}`);
-  if (categoryBtn) {
-    categoryBtn.classList.add("bg-[#15803D]", "text-white");
-  }
-
-  const cardContainer = document.getElementById("card-container");
-  cardContainer.innerHTML = "";
+  addHighlightCategory(id);
 
   if (id === "category-btn-all") {
     allTress();
@@ -47,7 +41,6 @@ const fetchPlantsByCategory = (id) => {
     .then((res) => res.json())
     .then((data) => {
       loadPlantsByCategory(data.plants);
-      // console.log(data);
     });
 };
 
@@ -73,7 +66,7 @@ const loadCategories = (categories) => {
     const categoryLi = document.createElement("li");
     categoryLi.innerHTML = `<li id="categoryBtn-${categoryId}" onclick="fetchPlantsByCategory('${categoryId}')" class="category-btns  ${
       index === 0 ? "bg-[#15803D] text-white" : ""
-    } mt-2 py-2 px-4 rounded-md hover:bg-[#74a887] hover:text-white cursor-pointer">${
+    } mt-2 py-2 pl-5 rounded-full hover:bg-[#15803D] hover:text-white cursor-pointer">${
       category.category_name
     }</li>`;
     categorySection.appendChild(categoryLi);
@@ -107,14 +100,11 @@ const loadPlantsByCategory = (plants) => {
   cardContainer.innerHTML = "";
   loadPlants(plants);
   loadingSpinner(false);
-  // console.log(plants);
 };
 
 //Function for load all plants
 const loadPlants = (plants) => {
-  // console.log(plants);
   plants.forEach((plant) => {
-    // console.log(plant);
     const plantId = plant.id;
     const plantImage = plant.image;
     const plantName = plant.name;
@@ -122,6 +112,7 @@ const loadPlants = (plants) => {
     const plantCategory = plant.category;
     const plantPrice = plant.price;
 
+    // Inject data in card
     const cardContainer = document.getElementById("card-container");
     const cardDiv = document.createElement("div");
     cardDiv.innerHTML = `
@@ -152,7 +143,6 @@ const loadPlants = (plants) => {
               </button>
             </div>
     `;
-
     cardContainer.append(cardDiv);
   });
   loadingSpinner(false);
@@ -192,7 +182,6 @@ const loadTreeDetails = (plant) => {
           <button class="btn">Close</button>
         </form>
   `;
-
   modalContainer.append(modalDiv);
   my_modal_1.showModal();
 };
@@ -250,12 +239,21 @@ const loadingSpinner = (status) => {
   }
 };
 
+// Function for add highlight selected category
+const addHighlightCategory = (id) => {
+  const categoryBtn = document.getElementById(`categoryBtn-${id}`);
+  if (categoryBtn) {
+    categoryBtn.classList.add("bg-[#15803D]", "text-white");
+  }
+
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
+};
+
 // Function for remove highlight selected category
 const removeHighlightCategory = () => {
-  // fetchCategories();
   const allCategoryBtns = document.querySelectorAll(".category-btns");
 
-  // console.log(allCategoryBtns);
   allCategoryBtns.forEach((categoryBtn) => {
     categoryBtn.classList.remove("bg-[#15803D]", "text-white");
 
@@ -275,25 +273,29 @@ const cardContainer = document.getElementById("card-container");
 const campaign = document.getElementById("campaign");
 
 mobileCategoryBtn.addEventListener("click", () => {
-  console.log("clicked");
-  mobileCategoryBtn.classList.remove("btn-outline");
-  mobileCartBtn.classList.add("btn-outline");
+  mobileCategoryBtn.classList.add("bg-[#15803d]", "text-white");
+  mobileCategoryBtn.classList.remove("bg-white", "text-[#15803d]");
 
-  mobileCategory.removeAttribute("hidden");
+  mobileCartBtn.classList.add("bg-white", "text-[#15803d]");
+  mobileCartBtn.classList.remove("bg-[#15803d]", "text-white");
+
+  mobileCategory.classList.remove("hidden");
   shoppingCart.classList.add("hidden");
-  cardContainer.removeAttribute("hidden");
-  campaign.removeAttribute("hidden");
+  cardContainer.classList.remove("hidden");
+  campaign.classList.remove("hidden");
 });
 
 mobileCartBtn.addEventListener("click", () => {
-  console.log("clicked");
-  mobileCategoryBtn.classList.add("btn-outline");
-  mobileCartBtn.classList.remove("btn-outline");
+  mobileCartBtn.classList.add("bg-[#15803d]", "text-white");
+  mobileCartBtn.classList.remove("bg-white", "text-[#15803d]");
 
-  mobileCategory.setAttribute("hidden", "true");
+  mobileCategoryBtn.classList.add("bg-white", "text-[#15803d]");
+  mobileCategoryBtn.classList.remove("bg-[#15803d]", "text-white");
+
+  mobileCategory.classList.add("hidden");
   shoppingCart.classList.remove("hidden");
-  cardContainer.setAttribute("hidden", "true");
-  campaign.setAttribute("hidden", "true");
+  cardContainer.classList.add("hidden");
+  campaign.classList.add("hidden");
 });
 
 fetchCategories();
